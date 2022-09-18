@@ -1,3 +1,7 @@
-image = [[1,1,1],[0,1,1],[1,1,1]]
-print(image[1][0])
-    
+
+depth_dict = {
+    'a': 1,
+    'b': 2
+}
+
+print(max(None,None)<=1)
