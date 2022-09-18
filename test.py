@@ -1,7 +1,3 @@
-
-depth_dict = {
-    'a': 1,
-    'b': 2
-}
-
-print(max(None,None)<=1)
+s = [1,2,3,4]
+print(s.append(5))
+print(s.push(6))
