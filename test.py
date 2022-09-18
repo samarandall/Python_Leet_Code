@@ -1,9 +1,2 @@
-s = "aab"
-dict = {}
-for i in s:
-    dict[i] = 1
-    print(i,dict[i]) 
-
-if dict.get('d'):
-    print("a")
-else: print(type(dict.get('d')))
+s = [1,2,3]
+print(s.pop())
