@@ -1,3 +1,2 @@
-s = [[1,2],[3,4]]
-print(s[0][1])
-    
+sets = set({})
+sets.add('asdf')
