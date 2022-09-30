@@ -1,39 +1,78 @@
 def updateMatrix(matrix):
-    map = {}
-    row_length = len(matrix)
-    column_length = len(matrix[0])
-    for i in range(0,row_length):
-        for j in range(0,column_length):
-            if matrix[i][j] == 0:
-                map[(i,j)] = 0
-            else: #need to implement check if all 4 surrounding nodes are not 0, then curr node = None
-                if i-1 >= 0:
-                    map[i,j] = matrix[i-1][j]+1
-                if j-1 >= 0:
-                    if not map.get(i,j) or map.get(i,j) > matrix[i][j-1]:
-                        map[i,j] = matrix[i][j-1]+1
+    distance = dict()
+    #first pass if not 0 set to infinity
+    '''
+    1 1 1     
+    1 1 1
+    1 1 0
+    
+    0 1 1
+    1 1 1
+    1 1 1
+    
+    1 1 1
+    1 0 1
+    1 1 1
+    
+    c c c
+    c 0 1
+    c 1 2
+    
+    2 1 2
+    1 0 1
+    2 1 2    
+    '''
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            if matrix[i][j] != 0:
+                if i-1 >= 0 and j-1 >= 0:
+                    if matrix[i-1][j] < float('inf') or matrix[i][j-1] < float('inf'):
+                        matrix[i][j] = min(matrix[i-1][j], matrix[i][j-1]) + 1
+                    else:
+                        matrix[i][j] = float('inf')
                     
-                if i+1 < row_length:
-                    if not map.get(i,j) or map.get(i,j) > matrix[i+1][j]:
-                        map[i,j] = matrix[i+1][j]+1
-                        
-                if j+1 < row_length:
-                    if not map.get(i,j) or map.get(i,j) > matrix[i][j+1]:
-                        map[i,j] = matrix[i][j+1]+1
-    queue = []
-    queue.append(row_length,column_length)
+                elif i-1 >= 0:
+                    if matrix[i-1][j] < float('inf'):
+                        matrix[i][j] = matrix[i-1][j] + 1
+                    else:
+                        matrix[i][j] = float('inf')
 
-    while queue:
-        point = queue.pop()
-        if point[0]-1 >= 0:
-            queue.append(point[0]-1, point[1])
-        if point[1]-1 >= 0:
-            queue.append(point[0],point[1]-1)
+                elif j-1 >= 0:
+                    if matrix[i][j-1] < float('inf'):
+                        matrix[i][j] = matrix[i][j-1] + 1
+                    else:
+                        matrix[i][j] = float('inf')
+                        
+                else:
+                    matrix[i][j] = float('inf')
+    
+    row_len = len(matrix)
+    column_len = len(matrix[0])
+
+    for i in reversed(range(len(matrix))):
+        for j in reversed(range(len(matrix[0]))):
         
-        
+            if matrix[i][j] != 0:
+                
+                if i+1 < row_len and j+1 < column_len:
+                    matrix[i][j] = min(matrix[i+1][j]+1, matrix[i][j+1]+1, matrix[i][j])
+
+                elif i+1 < row_len:
+                    matrix[i][j] = min(matrix[i+1][j]+1, matrix[i][j])
+
+                elif j+1 < column_len:
+                    matrix[i][j] = min(matrix[i][j+1]+1, matrix[i][j])
+
+    return matrix
+    
+
+                
+
+                        
             
                         
     
-    
-print(updateMatrix([[0,0,0],[0,1,0],[1,1,1]]))
+print(updateMatrix([[1,1,1],[1,1,1],[1,1,0]]))
+print(updateMatrix([[0,1,1],[1,1,1],[1,1,1]]))
 print(updateMatrix([[0,0,0],[0,1,0],[0,0,0]]))
+print(updateMatrix([[1,1,1],[1,0,1],[1,1,1]]))
